@@ -1,0 +1,20 @@
+
+dataset knn_ITER_5
+
+outputFile cc
+
+edgeThreshold 0.6
+printCCDistribution false
+printCC true
+
+nnDescentK 5
+nnDescentMaxIteration 5
+nnDescentOneFile true
+printAll false
+
+sparkMaster local[2]
+printMessageStat true
+edgelistSeparator \t
+sparkPartition 64
+
+switchLocal 2000
