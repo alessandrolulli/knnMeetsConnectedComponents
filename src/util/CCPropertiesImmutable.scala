@@ -2,8 +2,8 @@ package util
 
 @serializable
 class CCPropertiesImmutable(algorithmNameFromConfig : String, 
-							val dataset : String, 
-							val dataset2 : String,
+							val datasetKNN : String, 
+							val datasetCC : String,
 							val outputFile : String,
 							val jarPath : String, 
 							val sparkMaster : String,
@@ -34,7 +34,7 @@ class CCPropertiesImmutable(algorithmNameFromConfig : String,
 							val edgeThreshold : Double) extends Serializable
 {
     val algorithmName = if(loadBalancing) algorithmNameFromConfig+"_LOAD" else algorithmNameFromConfig
-	val appName = algorithmName+"_"+dataset
+	val appName = algorithmName+"_"+datasetKNN+"_"+datasetCC
 	val allStat = printMessageStat && appName.contains("CRA")
-	val filenameLargestCC = dataset+"_largestCC"
+	val filenameLargestCC = datasetCC+"_largestCC"
 }

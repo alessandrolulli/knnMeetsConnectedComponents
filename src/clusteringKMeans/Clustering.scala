@@ -74,7 +74,7 @@ object Clustering
 		val util = new CCUtil(property);
 		val sc = util.getSparkContext();
 		
-		val data = util.loadVertexMail(sc.textFile(property.dataset, property.sparkPartition)) 
+		val data = util.loadVertexMail(sc.textFile(property.datasetKNN, property.sparkPartition)) 
 		    
 		val news_titles = data.map(t => (t._1, t._2.split(" ").toSeq))
 		val all_input = news_titles.map(t => t._2).flatMap(x => x).map(x => Seq(x))

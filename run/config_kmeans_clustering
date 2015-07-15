@@ -1,11 +1,7 @@
 
-dataset knn_ITER_5
+datasetKNN subjectSmall
 
-outputFile cc
-
-edgeThreshold 0.6
-printCCDistribution false
-printCC true
+outputFile subjectResult
 
 nnDescentK 5
 nnDescentMaxIteration 5
@@ -17,4 +13,3 @@ printMessageStat true
 edgelistSeparator \t
 sparkPartition 64
 
-switchLocal 2000

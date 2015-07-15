@@ -37,7 +37,7 @@ object CrackerAllComparable {
 			val spark = util.getSparkContext()
 
 			val timeSparkLoaded = System.currentTimeMillis()
-			val file = spark.textFile(property.dataset, property.sparkPartition)
+			val file = spark.textFile(property.datasetCC, property.sparkPartition)
 
 			util.io.printFileStart(property.appName)
 

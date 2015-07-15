@@ -211,7 +211,7 @@ class CCUtil(property : CCPropertiesImmutable) extends Serializable {
 		
 		        val printFile = new FileWriter( "distributionEdgeRemoved.txt", true )
 		        
-				val token : Array[Object] = Array(	property.dataset, 
+				val token : Array[Object] = Array(	property.datasetCC, 
 													k.toString,
 													edgeThreshold.toString)
 				val tokenToString = joiner.join(token)
@@ -365,29 +365,6 @@ class CCUtil(property : CCPropertiesImmutable) extends Serializable {
 		toReturnEdgeList.filter(t => !t._1.equals("EMPTY"))
 	}
 	
-	// return edgelist and edge associated to each vertex
-	def loadEdgeFromFile() : Array[(Long, Array[Long])] =
-		{
-	    val toReturnEdgeList = Source.fromFile(property.dataset).getLines.flatMap(line =>
-				{
-					val splitted = line.split(property.separator)
-					if (splitted.size >= 1) {
-						try {
-							Array((splitted(0).toLong, splitted(1).toLong), (splitted(1).toLong, splitted(0).toLong))
-						} catch {
-							case e : Exception => Array[(Long, Long)]()
-						}
-					} else {
-						Array[(Long, Long)]()
-					}
-				}).toArray
-
-			val toReturnVertex = toReturnEdgeList.groupBy(t => t._1).toArray.map { case (group, traversable) => (group, traversable.map(t=> t._2)) }
-
-
-			toReturnVertex
-		}
-
 	// load from a file in the format of
 	// vertexID, arcID
 	def loadVertexEdgeFile(data : RDD[String]) : (RDD[(Long, Long)], RDD[(Long, Iterable[Long])]) =
@@ -541,7 +518,7 @@ class CCUtil(property : CCPropertiesImmutable) extends Serializable {
         io.printFileEnd(property.appName)
         
         io.printAllStat(	property.algorithmName,
-        					property.dataset,
+        					property.datasetCC,
     						property.sparkPartition, 
     						step, 
     						(timeEnd - timeBegin), 
@@ -581,7 +558,7 @@ class CCUtil(property : CCPropertiesImmutable) extends Serializable {
         io.printFileEnd(property.appName)
         
         io.printAllStat(	property.algorithmName,
-        					property.dataset,
+        					property.datasetCC,
     						property.sparkPartition, 
     						step, 
     						(timeEnd - timeBegin), 
@@ -600,86 +577,5 @@ class CCUtil(property : CCPropertiesImmutable) extends Serializable {
     		io.printCCDistributionString(rdd)
 //    		io.printCC(rdd)
     	}
-	}
-	
-	def testEndedArray(rdd : Array[(Long, Int)], step : Int, timeBegin : Long, timeEnd : Long, timeSparkLoaded : Long, timeDataLoaded : Long, reduceInputMessageNumber : Long, reduceInputSize : Long)  =
-	{
-		io.printTime( timeBegin, timeEnd, "all" )
-        io.printTime( timeSparkLoaded, timeEnd, "allComputationAndLoadingGraph" )
-        io.printTime( timeDataLoaded, timeEnd, "allComputation" )
-        io.printStep( step )
-        io.printStat(reduceInputMessageNumber, "reduceInputMessageNumber")
-        io.printStat(reduceInputSize, "reduceInputSize")
-        io.printFileEnd(property.appName)
-        
-        io.printAllStat(	property.algorithmName,
-        					property.dataset,
-    						property.sparkPartition, 
-    						step, 
-    						(timeEnd - timeBegin), 
-    						(timeEnd - timeSparkLoaded) , 
-    						(timeEnd - timeDataLoaded), 
-    						reduceInputMessageNumber, 
-    						reduceInputSize,
-    						getCCNumber(rdd), 
-    						getCCNumberNoIsolatedVertices(rdd),
-    						getCCMaxSize(rdd),
-    						property.customColumnValue)
-    	
-//    	if(property.printCCDistribution)
-//    		io.printCCDistribution(rdd)
-	}
-	
-	def testEndedArray(step : Int, timeBegin : Long, timeEnd : Long, timeSparkLoaded : Long, timeDataLoaded : Long, reduceInputMessageNumber : Long, reduceInputSize : Long)  =
-	{
-		io.printTime( timeBegin, timeEnd, "all" )
-        io.printTime( timeSparkLoaded, timeEnd, "allComputationAndLoadingGraph" )
-        io.printTime( timeDataLoaded, timeEnd, "allComputation" )
-        io.printStep( step )
-        io.printStat(reduceInputMessageNumber, "reduceInputMessageNumber")
-        io.printStat(reduceInputSize, "reduceInputSize")
-        io.printFileEnd(property.appName)
-        
-        io.printAllStat(	property.algorithmName,
-        					property.dataset,
-    						property.sparkPartition, 
-    						step, 
-    						(timeEnd - timeBegin), 
-    						(timeEnd - timeSparkLoaded) , 
-    						(timeEnd - timeDataLoaded), 
-    						reduceInputMessageNumber, 
-    						reduceInputSize,
-    						0, 
-    						0,
-    						0,
-    						property.customColumnValue)
-    	
-//    	if(property.printCCDistribution)
-//    		io.printCCDistribution(rdd)
-	}
-	
-	def testEnded(ccNumber : Long, ccNumberNoIsolatedVertices : Long, step : Int, timeBegin : Long, timeEnd : Long, timeSparkLoaded : Long, timeDataLoaded : Long, reduceInputMessageNumber : Long, reduceInputSize : Long)  =
-	{
-		io.printTime( timeBegin, timeEnd, "all" )
-        io.printTime( timeSparkLoaded, timeEnd, "allComputationAndLoadingGraph" )
-        io.printTime( timeDataLoaded, timeEnd, "allComputation" )
-        io.printStep( step )
-        io.printStat(reduceInputMessageNumber, "reduceInputMessageNumber")
-        io.printStat(reduceInputSize, "reduceInputSize")
-        io.printFileEnd(property.appName)
-        
-        io.printAllStat(	property.algorithmName,
-        					property.dataset,
-    						property.sparkPartition, 
-    						step, 
-    						(timeEnd - timeBegin), 
-    						(timeEnd - timeSparkLoaded) , 
-    						(timeEnd - timeDataLoaded), 
-    						reduceInputMessageNumber, 
-    						reduceInputSize,
-    						ccNumber, 
-    						ccNumberNoIsolatedVertices,
-    						0,
-    						property.customColumnValue)
 	}
 }

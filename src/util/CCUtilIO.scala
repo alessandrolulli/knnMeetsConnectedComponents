@@ -44,7 +44,7 @@ class CCUtilIO(property : CCPropertiesImmutable) extends Serializable
 		
         val printFile = new FileWriter( "simplification.txt", true )
         
-		val token : Array[Object] = Array(	property.dataset, 
+		val token : Array[Object] = Array(	property.datasetCC, 
 											step.toString, 
 											activeVertices.toString, 
 											((((activeVertices.toDouble * 100) / initialVertices)*100).round.toDouble / 100).toString, 
@@ -64,7 +64,7 @@ class CCUtilIO(property : CCPropertiesImmutable) extends Serializable
         val printFile = new FileWriter( "timeStep.txt", true )
         
 		// dataset, algorithmName, step, time
-		val token : Array[Object] = Array(	property.dataset, 
+		val token : Array[Object] = Array(	property.datasetCC, 
 											property.algorithmName, 
 											step.toString, 
 											time.toString,
@@ -83,7 +83,7 @@ class CCUtilIO(property : CCPropertiesImmutable) extends Serializable
 		
         val printFile = new FileWriter( "messageStep.txt", true )
         
-		val token : Array[Object] = Array(property.dataset, property.algorithmName, step.toString, messageNumber.toString, messageSize.toString, bitmaskCustom, property.sparkShuffleConsolidateFiles)
+		val token : Array[Object] = Array(property.datasetCC, property.algorithmName, step.toString, messageNumber.toString, messageSize.toString, bitmaskCustom, property.sparkShuffleConsolidateFiles)
 		printFile.write(joiner.join(token)+ "\n" )
 		
         printFile.close
@@ -96,7 +96,7 @@ class CCUtilIO(property : CCPropertiesImmutable) extends Serializable
 		val joiner = Joiner.on(",")
 		
 		val token : Array[Object] = Array(	property.algorithmName, 
-											property.dataset, 
+											property.datasetKNN, 
 											value 
 											)
 		
@@ -119,7 +119,7 @@ class CCUtilIO(property : CCPropertiesImmutable) extends Serializable
 		val desc = "algorithmName,dataset,partition,step,timeAll,timeGraph,timeComputation,messageNumber,messageSize,customColumn,cores,shuffleManager,compression,consolidateFiles,iteration"
 		
 		val token : Array[Object] = Array(	property.algorithmName, 
-											property.dataset, 
+											property.datasetKNN, 
 											property.sparkPartition.toString, 
 											step.toString, 
 											timaAll.toString, 
@@ -133,34 +133,6 @@ class CCUtilIO(property : CCPropertiesImmutable) extends Serializable
 											property.sparkCompressionCodec,
 											property.sparkShuffleConsolidateFiles,
 											iteration.toString)
-		
-		printFile.write(joiner.join(token)+ "\n" )
-        printFile.close
-	}
-	
-	def printCommonStatSuperBit(
-						timaAll : Long,
-						k : Int,
-						superBitStages : Int,
-						superBitBuckets : Int) =
-	{
-		val printFile = new FileWriter( "stats.txt", true )
-		val joiner = Joiner.on(",")
-		
-		val desc = "algorithmName,dataset,partition,step,timeAll,timeGraph,timeComputation,messageNumber,messageSize,customColumn,cores,shuffleManager,compression,consolidateFiles,iteration"
-		
-		val token : Array[Object] = Array(	property.algorithmName, 
-											property.dataset, 
-											property.sparkPartition.toString, 
-											timaAll.toString, 
-											property.customColumnValue,
-											property.sparkCoresMax.toString,
-											property.sparkShuffleManager,
-											property.sparkCompressionCodec,
-											property.sparkShuffleConsolidateFiles,
-											k.toString,
-											superBitStages.toString,
-											superBitBuckets.toString)
 		
 		printFile.write(joiner.join(token)+ "\n" )
         printFile.close
@@ -228,44 +200,13 @@ class CCUtilIO(property : CCPropertiesImmutable) extends Serializable
 		val printFile = new FileWriter( "distribution.txt", true )
 		val joiner = Joiner.on(",")
 		
-		val ccDistribution = rdd.map(t=>(t._2,1)).reduceByKey{case(a,b)=>a+b}.map(t=>property.dataset+","+t._1+","+t._2+","+property.edgeThreshold.toString+"\n").reduce{case(a,b)=>a+b}
+		val ccDistribution = rdd.map(t=>(t._2,1)).reduceByKey{case(a,b)=>a+b}.map(t=>property.datasetCC+","+t._1+","+t._2+","+property.edgeThreshold.toString+"\n").reduce{case(a,b)=>a+b}
 		
 //		val token : Array[Object] = Array(algorithmName, dataset, partition.toString, hybridMessageSizeBound.toString, step.toString, timaAll.toString, timeLoadingAndComputation.toString, timeComputation.toString, reduceInputMessageNumber.toString, reduceInputSize.toString, ccNumber.toString, ccMaxSize.toString)
 //		
 //		printFile.write(joiner.join(token)+ "\n" )
 		printFile.write(ccDistribution+ "\n" )
 		
-        printFile.close
-	}
-	
-	def printClusteringQuality(	
-								k : Int,
-								iteration : Int,
-								minimalInterClusterDistance : Double, 
-			        			maximalIntraClusterDistance : Double, 
-			        			separation : Double, 
-			        			compactness : Double,
-			        			silhoutte : Double) =
-	{
-		val printFile = new FileWriter( "stats.txt", true )
-		val joiner = Joiner.on(",")
-		
-		// description = algorithmName,dataset,dataset2,custom,k,iteration,edgeThreshold,minimalInterClusterDistance,maximalIntraClusterDistance,dunn,separation,compactness,silhoutte
-		val token : Array[Object] = Array(	property.algorithmName, 
-											property.dataset,
-											property.dataset2,
-											property.customColumnValue,
-											k.toString,
-											iteration.toString,
-											property.edgeThreshold.toString,
-											minimalInterClusterDistance.toString,
-											maximalIntraClusterDistance.toString,
-											(minimalInterClusterDistance / maximalIntraClusterDistance).toString,
-											separation.toString,
-											compactness.toString,
-											silhoutte.toString)
-		
-		printFile.write(joiner.join(token)+ "\n" )
         printFile.close
 	}
 	

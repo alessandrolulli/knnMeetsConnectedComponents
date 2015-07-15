@@ -31,7 +31,7 @@ object NNDescentMainScala
 		val util = new CCUtil(property);
 		val sc = util.getJavaSparkContext();
 		
-		val file = sc.textFile(property.dataset, property.sparkPartition)
+		val file = sc.textFile(property.datasetKNN, property.sparkPartition)
 		val vertexRDD = util.loadVertexMail(file).map(t => new Node[String](t._1, t._2))
 		
         val jaroWinkler = new JaroWinkler
@@ -60,9 +60,9 @@ object NNDescentMainScala
         val toPrint2 = graphScala.map(t => t._1.id+"\t"+t._2.getNeighbourId())
         
         if(nnDescentOneFile)
-        	toPrint2.coalesce(1, true).saveAsTextFile(property.outputFile+"_ITER_"+iteration)
+        	toPrint2.coalesce(1, true).saveAsTextFile(property.datasetCC)
         else
-            toPrint2.saveAsTextFile(property.outputFile+"_ITER_"+iteration)
+            toPrint2.saveAsTextFile(property.datasetCC)
             
         nndes = nndes.setMaxIterations(1)
         var timeTotal = timeEnd-timeBegin
@@ -98,5 +98,7 @@ object NNDescentMainScala
 		            toPrint2.saveAsTextFile(property.outputFile+"_ITER_"+iteration)
 	        }
         }
+        
+        sc.close
     }
 }

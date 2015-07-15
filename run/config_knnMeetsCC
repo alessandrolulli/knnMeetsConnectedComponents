@@ -1,0 +1,23 @@
+
+datasetKNN subjectSmall
+datasetCC knn
+
+outputFile clusteringResult
+
+### KNN configurations
+nnDescentK 5
+nnDescentMaxIteration 5
+nnDescentOneFile true
+printAll false
+
+### CC configurations
+edgeThreshold 0.8
+printCCDistribution false
+printCC true
+switchLocal 2000
+
+sparkMaster local[2]
+printMessageStat true
+edgelistSeparator \t
+sparkPartition 64
+

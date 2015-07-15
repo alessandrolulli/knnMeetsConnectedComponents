@@ -42,8 +42,8 @@ class CCProperties(algorithmName: String, configurationFile : String)
 	
 	def getImmutable : CCPropertiesImmutable =
 	{
-		val dataset = get("dataset", "")
-		val dataset2 = get("dataset2", "")
+		val datasetKNN = get("datasetKNN", "")
+		val datasetCC = get("datasetCC", "")
 		val jarPath = get("jarPath", "")
 		val sparkMaster = get("sparkMaster", "local[2]")
 		val sparkExecutorMemory = get("sparkExecutorMemory", "14g")
@@ -79,8 +79,8 @@ class CCProperties(algorithmName: String, configurationFile : String)
 		val edgeThreshold = getDouble("edgeThreshold", -1)
 		
 		new CCPropertiesImmutable(	algorithmNameFromConfiguration, 
-		        					dataset, 
-		        					dataset2,
+		        					datasetKNN, 
+		        					datasetCC,
 		        					outputFile,
 		        					jarPath, 
 		        					sparkMaster, 
