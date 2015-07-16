@@ -8,3 +8,6 @@ out
 src/META-INF
 graphx_minCutFlooding.iml
 run
+target
+.cache-main
+.settings

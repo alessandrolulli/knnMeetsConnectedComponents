@@ -77,18 +77,6 @@ class CCUtilIO(property : CCPropertiesImmutable) extends Serializable
         printFile.close
     }
 	
-	def printMessageStep( step : Int, messageNumber : Long, messageSize : Long, bitmaskCustom : String = "000") =
-    {
-		val joiner = Joiner.on(",")
-		
-        val printFile = new FileWriter( "messageStep.txt", true )
-        
-		val token : Array[Object] = Array(property.datasetCC, property.algorithmName, step.toString, messageNumber.toString, messageSize.toString, bitmaskCustom, property.sparkShuffleConsolidateFiles)
-		printFile.write(joiner.join(token)+ "\n" )
-		
-        printFile.close
-    }
-	
 	def printStatSimple(
 						value : String) =
 	{
@@ -151,7 +139,7 @@ class CCUtilIO(property : CCPropertiesImmutable) extends Serializable
 						ccNumberNoIsolatedVertices : Long,
 						ccMaxSize : Int,
 						customColumnValue : String,
-						bitmaskCustom : String = "000") =
+						bitmaskCustom : String) =
 	{
 		val printFile = new FileWriter( "stats.txt", true )
 		val joiner = Joiner.on(",")

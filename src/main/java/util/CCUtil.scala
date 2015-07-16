@@ -494,11 +494,6 @@ class CCUtil(property : CCPropertiesImmutable) extends Serializable {
     		io.printTimeStep(step, time)
     }
     
-    def printMessageStep( step : Int, messageNumber : Long, messageSize : Long) =
-    {
-    	io.printMessageStep(step, messageNumber, messageSize)
-    }
-	
 	def testEnded(	rdd : RDD[(Long, Int)], 
 	        		step : Int, 
 	        		timeBegin : Long, 
@@ -507,7 +502,7 @@ class CCUtil(property : CCPropertiesImmutable) extends Serializable {
 	        		timeDataLoaded : Long, 
 	        		reduceInputMessageNumber : Long, 
 	        		reduceInputSize : Long,
-	        		bitmaskCustom : String = "000")  =
+	        		bitmaskCustom : String)  =
 	{
 		io.printTime( timeBegin, timeEnd, "all" )
         io.printTime( timeSparkLoaded, timeEnd, "allComputationAndLoadingGraph" )
@@ -547,7 +542,7 @@ class CCUtil(property : CCPropertiesImmutable) extends Serializable {
 	        		timeDataLoaded : Long, 
 	        		reduceInputMessageNumber : Long, 
 	        		reduceInputSize : Long,
-	        		bitmaskCustom : String = "000")  =
+	        		bitmaskCustom : String)  =
 	{
 		io.printTime( timeBegin, timeEnd, "all" )
         io.printTime( timeSparkLoaded, timeEnd, "allComputationAndLoadingGraph" )
