@@ -1,8 +1,24 @@
 # knnMeetsConnectedComponents
 
+### How to build ###
+
+The project can be built using Maven.
+From the main dir:
+mvn package
+
 ### How to run ###
 
-The main class is: util.Main
+The main class is: util.KnnMeetsConnectedComponents
+
+It is possible to execute the job in two ways:
+1) Submit a job to your Spark environment
+2) use the script in run/runKnnMeetsConnectedComponents.sh
+
+It is required also to provide under the lib folder the Spark lib.
+A pre-built Spark lib can be downloaded from the following URL:
+https://www.dropbox.com/s/xnfqs0ht4nqv5lc/spark-assembly-1.2.0-hadoop2.2.0.jar?dl=0
+
+### Configuration ###
 
 The application requires a configuration file.
 An example of configuration file is: run/config_knnMeetsCC
