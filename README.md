@@ -1,5 +1,11 @@
 # knnMeetsConnectedComponents
 
+### Publications ###
+
+Alessandro Lulli, Thibault Debatty, Laura Ricci, Matteo Dell’Amico, and Pietro Michiardi
+Scalable k-NN based text clustering
+Accepted ad IEEE BigData 2015
+
 ### How to build ###
 
 The project can be built using Maven.
